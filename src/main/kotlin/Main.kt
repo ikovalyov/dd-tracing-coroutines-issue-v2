@@ -17,7 +17,7 @@ object Main {
             repeat(10) {
                 val newResult = async(Dispatchers.IO) {
                     val lastItem = if (it > 1) {
-                        deferred[it - 2]
+                        deferred[it - 1]
                     } else {
                         null
                     }
