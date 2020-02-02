@@ -5,7 +5,7 @@ import kotlinx.coroutines.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-val spanRegex = Regex("""(\[ t_id=\d+, s_id=\d+, p_id=\d+]).+(ns=\d+).*""")
+val spanRegex = Regex("""(\[ t_id=\d+, s_id=\d+, p_id=\d+]).+(duration_ns=\d+).*""")
 
 object Main {
     private val logger: Logger = LoggerFactory.getLogger(Main.javaClass)
@@ -56,7 +56,7 @@ object Main {
 fun Span.print(): String = with(spanRegex.find(this.toString())) {
     return if (this != null) {
         val (a, _) = this.destructured
-        return a
+        return "$a ${Thread.currentThread().name}"
     } else {
         ""
     }

@@ -17,12 +17,6 @@ suspend fun <T> trace(parent: Span, block: suspend () -> T): T {
     }
 }
 
-private fun openSpan(): Span {
-    val tracer = GlobalTracer.get()
-
-    return tracer.buildSpan("waitFor").ignoreActiveSpan().start()
-}
-
 class SpanContextElement(val span: Span? = GlobalTracer.get().activeSpan()) : ThreadContextElement<Span?> {
     override val key = Key
 
