@@ -18,7 +18,7 @@ object Main {
         logger.info("=== INIT === ${span.print()}}")
         coroutineScope {
             val deferred: MutableList<Deferred<Int>> = mutableListOf()
-            delay(1000)
+
             repeat(10) {
                 val newResult = async(Dispatchers.IO) {
                     val lastItem = if (it > 1) {
@@ -26,27 +26,28 @@ object Main {
                     } else {
                         null
                     }
-                    waitFor(1000, lastItem, it)
+                    trace(span) {
+                        waitFor(1000, lastItem, it)
+                    }
                 }
                 deferred.add(newResult)
             }
         }
     }
 
-    @Trace
     private suspend fun waitFor(millis: Long, asyncResult: Deferred<Int>?, iteration: Int) : Int {
         var tracer = GlobalTracer.get()
         var span = tracer.activeSpan()
 
         span.setTag("Iteration", iteration)
 
-        logger.info("++++ IN +++: $iteration; ${span.print()}}")
+        logger.info("++++ IN +++: $iteration; ${span.print()}")
 
 
         asyncResult?.await()
         tracer = GlobalTracer.get()
         span = tracer.activeSpan()
-        logger.info("--- OUT ---: $iteration; ${span.print()}}")
+        logger.info("--- OUT ---: $iteration; ${span.print()}")
         delay(millis)
         return 1
     }
@@ -54,8 +55,8 @@ object Main {
 
 fun Span.print(): String = with(spanRegex.find(this.toString())) {
     return if (this != null) {
-        val (a, b) = this.destructured
-        return "$a $b"
+        val (a, _) = this.destructured
+        return a
     } else {
         ""
     }
