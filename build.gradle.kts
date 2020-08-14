@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val agentConfig = configurations.create("runtimeAgent")
 
 plugins {
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm") version "1.3.61"
     application
 }
 
@@ -15,13 +15,14 @@ repositories {
 }
 
 dependencies {
+    val ddVersion = "0.42.0"
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
-    implementation("com.datadoghq:dd-trace-api:0.38.0")
-    implementation("com.datadoghq:dd-trace-ot:0.38.0")
-    implementation("com.datadoghq:dd-java-agent:0.38.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
+    implementation("com.datadoghq:dd-trace-api:$ddVersion")
+    implementation("com.datadoghq:dd-trace-ot:$ddVersion")
+    implementation("com.datadoghq:dd-java-agent:$ddVersion")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.12.1")
-    agentConfig("com.datadoghq", "dd-java-agent", "0.38.0")
+    agentConfig("com.datadoghq", "dd-java-agent", ddVersion)
 }
 
 application {
