@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    val ddVersion = "0.42.0"
+    val ddVersion = "0.59.0"
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
     implementation("com.datadoghq:dd-trace-api:$ddVersion")
